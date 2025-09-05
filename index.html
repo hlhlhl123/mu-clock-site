@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>多主题实时时间</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Microsoft YaHei", sans-serif;
+      transition: background 0.8s, color 0.8s;
+    }
+    .clock-box {
+      padding: 40px 60px;
+      border-radius: 20px;
+      text-align: center;
+      transition: background 0.8s, box-shadow 0.8s, border 0.8s, color 0.8s;
+    }
+    .time {
+      font-size: 3em;
+      font-weight: bold;
+    }
+    .date {
+      font-size: 1.2em;
+      margin-top: 12px;
+    }
+    .theme-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      background: rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    .theme-switcher:hover {
+      background: rgba(0,0,0,0.2);
+    }
+
+    /* ===== 主题样式 ===== */
+    /* 简约风 */
+    body.simple { background: #fdfdfd; color: #333; }
+    body.simple .clock-box { background: #fff; border: 1px solid #e5e5e5; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+    /* 萌系风 */
+    body.cute { background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: #fff; }
+    body.cute .clock-box { background: rgba(255,182,193,0.85); border: 3px dashed #fff; box-shadow: 0 8px 25px rgba(255,105,180,0.4); }
+
+    /* 酷黑风 */
+    body.dark { background: #0d0d0d; color: #0ff; }
+    body.dark .clock-box { background: rgba(20,20,20,0.9); border: 1px solid #0ff; box-shadow: 0 0 20px #0ff; }
+
+    /* 科技风 */
+    body.tech { background: radial-gradient(circle at center, #001f3f, #000); color: #39ff14; }
+    body.tech .clock-box { background: rgba(0, 50, 70, 0.6); border: 1px solid #39ff14; box-shadow: 0 0 20px #39ff14; }
+
+    /* 动漫风 */
+    body.anime { background: url('https://picsum.photos/seed/anime/1600/900') center/cover no-repeat; color: #fff; }
+    body.anime .clock-box { background: rgba(0,0,0,0.5); border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.6); font-family: "Comic Sans MS", "Microsoft YaHei", cursive; }
+  </style>
+</head>
+<body class="simple">
+  <button class="theme-switcher" id="themeBtn">切换主题</button>
+  <div class="clock-box">
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('zh-CN', { hour12: false });
+      const date = now.toLocaleDateString('zh-CN', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+      document.getElementById('time').textContent = time;
+      document.getElementById('date').textContent = date;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // 主题切换
+    const themes = ["simple", "cute", "dark", "tech", "anime"];
+    let current = 0;
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      current = (current + 1) % themes.length;
+      document.body.className = themes[current];
+    });
+  </script>
+</body>
+</html>
